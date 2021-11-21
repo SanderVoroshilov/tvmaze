@@ -5,11 +5,32 @@ import { first, map } from "rxjs/operators";
 import { environment } from "../environments/environment";
 
 export interface TVMazeShowInfoDto {
+    image: {
+        medium: string,
+        original: string
+    };
     name: string;
+    genres: string[];
+    network: {
+        id: number,
+        name: string,
+        country: {
+            name: string,
+            code: string,
+            timezone: string
+        }
+    };
+    averageRuntime: number;
+    rating: { average: number };
 }
 
 export interface TVMazeShowInfo {
+    image: string;
     title: string;
+    genres: string[];
+    country: string;
+    averageRuntime: number;
+    rating: number;
 }
 
 @Injectable({ providedIn: "root" })
@@ -22,13 +43,18 @@ export class AppService {
 
     public getTVMazeShowListByPageIndexAsync(pageIndex: number, pageSize: number): Observable<TVMazeShowInfo[]> {
         return this.httpClient
-            .get(`${environment.tvmazeWebApiUrl}${pageIndex}`)
+            .get(`${environment.tvmazeWebApiUrl}${Math.floor(pageIndex / 5)}`)
             .pipe(
                 map(result => {
                     return (<TVMazeShowInfoDto[]>result)
                         .slice(pageSize * pageIndex, pageSize * (pageIndex + 1))
-                        .map(o => <TVMazeShowInfo>{ 
-                            title: o.name
+                        .map(o => <TVMazeShowInfo>{
+                            image: o.image?.medium,
+                            title: o.name,
+                            genres: o.genres,
+                            country: o.network?.country?.name,
+                            averageRuntime: o.averageRuntime,
+                            rating: o.rating?.average
                         });
                 }),
                 first(),

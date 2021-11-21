@@ -1,1 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles */
+@import url("https://fonts.googleapis.com/css2?family=Abel&display=swap");
+
+/* Material table styles overrides */
+.mat-table {
+  .mat-header-row {
+    position: sticky;
+    top: 0;
+    opacity: 0.5;
+    height: 60px;
+    font-weight: bold;
+    background: rgb(175, 175, 175);
+  }
+
+  .mat-row {
+    height: 150px;
+  }
+
+  th.mat-header-cell:first-of-type,
+  td.mat-cell:first-of-type,
+  td.mat-footer-cell:first-of-type {
+    padding-left: 0px;
+  }
+
+  th.mat-header-cell,
+  td.mat-cell,
+  td.mat-footer-cell {
+    padding: 0;
+    text-align: center;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    border-bottom-color: #ededed;
+  }
+
+  tr:nth-child(even) {
+    background: #f8f8f8;
+  }
+}
